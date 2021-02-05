@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-# 从管道读取数据发送
-# author：ruanzq
-# GitHub：ruanzq.github.com
-import smtplib,sys,fcntl,os
+import smtplib,sys,fcntl,os,time
 from email.mime.text import MIMEText
 from email.header import Header
 content = None
@@ -11,11 +8,21 @@ HOST = "smtp.qq.com"
 
 PORT = "465"
 
-CODE = ""
+CODE = "olbfmaomaawbjcgg"
 
-RECEIVE = []
+RECEIVE = ["954542623@qq.com"]
 
-ME = ""
+ME = "1581327660@qq.com"
+
+def timer(func):
+    """计时器"""
+    def nameless(*args,**kwargs):
+        start = time.time()
+        v = func(*args,**kwargs)
+        end = time.time()
+        print("run time: ",end - start)
+        return v
+    return nameless
 
 def readOnPipe():
     """从管道读取数据"""
@@ -30,13 +37,17 @@ def writeLetter(content):
     msg['To'] =  Header(RECEIVE[0], 'utf-8')
     return msg
 
-try:
-    letter = writeLetter(readOnPipe())
-    smtp = smtplib.SMTP_SSL(HOST,PORT)
-    smtp.login(ME,CODE)
-    smtp.sendmail(ME,RECEIVE,letter.as_string())
-except TypeError as e:
-    print("nothing input")
-except Exception as e:
-    print(e)
-    print("failed")
+@timer
+def main():
+    try:
+        letter = writeLetter(readOnPipe())
+        smtp = smtplib.SMTP_SSL(HOST,PORT)
+        smtp.login(ME,CODE)
+        smtp.sendmail(ME,RECEIVE,letter.as_string())
+    except TypeError as e:
+        print("nothing input")
+    except Exception as e:
+        print(e)
+        print("falied")
+
+main()
