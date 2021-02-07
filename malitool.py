@@ -8,11 +8,11 @@ HOST = "smtp.qq.com"
 
 PORT = "465"
 
-CODE = "olbfmaomaawbjcgg"
+CODE = ""
 
-RECEIVE = ["954542623@qq.com"]
+RECEIVE = []
 
-ME = "1581327660@qq.com"
+ME = ""
 
 def timer(func):
     """计时器"""
